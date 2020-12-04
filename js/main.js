@@ -53,7 +53,7 @@ const setUsers = {
   },
   signUp(email, password, handler) {
     if (!this.getUser(email)){
-      const user = {email, password, displayName: email};
+      const user = {email, password, displayName: getDisplayName(email)};
       listUsers.push(user);
       this.authorizedUser(user);
       handler();
@@ -82,6 +82,10 @@ const toggleAuthDom = () => {
     userElem.style.display = 'none';
   }
 };
+
+const getDisplayName = (email) => {
+  return email.substr(0, email.search('@'));
+}
 
 loginForm.addEventListener('submit', event => {
   event.preventDefault();
