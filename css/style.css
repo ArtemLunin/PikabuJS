@@ -251,6 +251,8 @@ body {
   background-color: #fafafa;
   border: 1px solid #e8e8e8;
   padding: 15px 25px;
+}
+.user-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -259,6 +261,7 @@ body {
   display: flex;
   align-items: center;
   text-decoration: none;
+  margin-right: auto;
 }
 .user-avatar {
   border-radius: 50%;
@@ -274,6 +277,41 @@ body {
   width: 20px;
   height: 20px;
   fill: #000;
+}
+.edit {
+  margin-right: 10px;
+}
+.edit-container {
+  display: none;
+}
+.edit-container.visible {
+  display: block;
+}
+.edit-label {
+  display: block;
+  margin-bottom: 10px;
+  text-align: center;
+}
+.edit-input {
+  display: block;
+  margin: 0 auto;
+  width: 100%;
+  padding: 5px 10px;
+}
+.edit-btn {
+  background-color: #fa8c16;
+  width: 100%;
+  border: none;
+  border-radius: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  line-height: 32px;
+  font-size: 12px;
+  margin-bottom: 15px;
+}
+.icon-edit {
+  width: 20px;
+  height: 20px;
 }
 .sidebar-nav {
   display: none;

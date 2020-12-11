@@ -52,6 +52,11 @@ const setUsers = {
     console.log('logOut');
   },
   signUp(email, password, handler) {
+    if (email.trim()=='' || password.trim()=='')
+    {
+      alert('Введите данные');
+      return;
+    }
     if (!this.getUser(email)){
       const user = {email, password, displayName: getDisplayName(email)};
       listUsers.push(user);
@@ -90,11 +95,15 @@ const getDisplayName = (email) => {
 loginForm.addEventListener('submit', event => {
   event.preventDefault();
   setUsers.logIn( emailInput.value, passwordInput.value, toggleAuthDom );
+  loginForm.reset();
 });
 
 loginSignup.addEventListener('click', event => {
   event.preventDefault();
   setUsers.signUp( emailInput.value, passwordInput.value, toggleAuthDom );
+  loginForm.reset();
 });
 
 toggleAuthDom();
+
+//48 min
