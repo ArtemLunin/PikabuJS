@@ -266,6 +266,7 @@ body {
 .user-avatar {
   border-radius: 50%;
   margin-right: 17px;
+  object-fit: cover;
 }
 .user-name {
   font-weight: 600;
@@ -280,6 +281,14 @@ body {
 }
 .edit {
   margin-right: 10px;
+}
+.edit-title {
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #595959;
 }
 .edit-container {
   display: none;
