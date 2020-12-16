@@ -14,7 +14,6 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 // firebase.analytics();
 
-console.log(firebase);
 
 // Создаем переменную, в которую положим кнопку меню
 let menuToggle = document.querySelector('#menu-toggle');
@@ -62,6 +61,18 @@ const listUsers = [
 
 const setUsers = {
   user: null,
+  initUser(handler)
+  {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.user = user;
+      }
+      else {
+        this.user = null;
+      }
+      if (handler) handler();
+    });
+  },
   logIn(email, password, handler) {
     if (!regExpValidEmail.test(email)) return alert('email не валиден');
     const user = this.getUser(email);
@@ -84,15 +95,35 @@ const setUsers = {
       alert('Введите данные');
       return;
     }
-    if (!this.getUser(email)){
-      const user = {email, password, displayName: getDisplayName(email)};
-      listUsers.push(user);
-      this.authorizedUser(user);
-      handler();
-    }
-    else {
-      alert('Пользователь с таким емейл уже зарегистрирован');
-    }
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+    .then(data => {
+      console.log(data);
+    })
+    .catch(err  => {
+      const errCode = err.code;
+      const errMessage = err.message;
+      if(errCode=== 'auth/weak-password') {
+        console.log(errMessage);
+        alert('Слабый пароль');
+      }
+      else if (errCode === 'auth/email-already-in-use') {
+        console.log(errMessage);
+        alert('Этот email уже используется');
+      }
+      else {
+        alert(errMessage);
+      }
+      console.log(errMessage);
+    });
+    // if (!this.getUser(email)){
+    //   const user = {email, password, displayName: getDisplayName(email)};
+    //   listUsers.push(user);
+    //   this.authorizedUser(user);
+    //   handler();
+    // }
+    // else {
+    //   alert('Пользователь с таким емейл уже зарегистрирован');
+    // }
   },
   editUser(userName, userPhoto, handler)
   {
@@ -315,12 +346,14 @@ editContainer.addEventListener('submit', event =>{
     addPostElem.reset();
   });
 
+  setUsers.initUser(toggleAuthDom);
+
   showAllPosts();
-  toggleAuthDom();
+  // toggleAuthDom();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
   init();
 })
 
-//Day 3, 44 min
+// day 4, 45 min
