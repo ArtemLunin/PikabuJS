@@ -94,6 +94,9 @@ body {
   align-items: flex-start;
   justify-content: space-between;
 }
+.add-post {
+  width: 67%;
+}
 .posts {
   width: 67%;
 }
@@ -128,8 +131,11 @@ body {
   color: #bfbfbf;
   font-size: 14px;
   line-height: 22px;
-  margin-right: 10px;
+  margin-left: 10px;
   text-decoration: none;
+}
+.tag:first-child {
+  margin-left: 0;
 }
 .post-footer {
   border-top: 1px solid #e8e8e8;
@@ -173,6 +179,7 @@ body {
   height: 34px;
   margin-left: 9px;
   border-radius: 4px;
+  object-fit: cover;
 }
 .author-username {
   display: block;
@@ -382,6 +389,10 @@ body {
   justify-content: center;
   width: 100%;
   margin-top: 20px;
+}
+.button-new-post.visible
+{
+  display: flex;
 }
 .icon-fire {
   fill: #fff;

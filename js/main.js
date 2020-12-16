@@ -23,7 +23,7 @@ const editPhotoURL = document.querySelector('.edit-photo');
 const userAvatarElem = document.querySelector('.user-avatar');
 
 const postsWrapper = document.querySelector('.posts');
-
+const buttonNewPost = document.querySelector('.button-new-post');
 
 const listUsers = [
   {
@@ -98,7 +98,7 @@ const setPosts = {
       title: 'Заголовок поста',
       text: 'Далеко-далеко за словесными горами в стране гласных и согласных живут рыбные тексты. Языком что рот маленький реторический вершину текстов обеспечивает гор свой назад решила сбить маленькая дорогу жизни рукопись ему букв деревни предложения, ручеек залетают продолжил парадигматическая? Но языком сих пустился, запятой своего его снова решила меня вопроса моей своих пояс коварный, власти диких правилами напоивший они текстов ipsum первую подпоясал? Лучше, щеке подпоясал приставка большого курсивных на берегу своего? Злых, составитель агентство что вопроса ведущими о решила одна алфавит!',
       tags: ['свежее', 'новое', 'горячее', 'мое', 'случайность'],
-      author: 'maks@mail.com',
+      author: {displayName: 'maks', photo: 'https://i.pinimg.com/474x/08/cd/b9/08cdb9cc661357a55a1c2ddf53d9a7c4.jpg'},
       date: '10.11.2020, 20:54:00',
       like: 30,
       comments: 12,
@@ -107,7 +107,7 @@ const setPosts = {
       title: 'Заголовок поста2',
       text: 'Ha-ha-ha',
       tags: ['свежее', 'мое', 'случайность'],
-      author: 'artem@mail.com',
+      author: {displayName: 'maks', photo: 'https://i.pinimg.com/474x/08/cd/b9/08cdb9cc661357a55a1c2ddf53d9a7c4.jpg'},
       date: '11.11.2020, 20:54:00',
       like: 8,
       comments: 12,
@@ -116,7 +116,7 @@ const setPosts = {
       title: 'Заголовок поста3',
       text: 'Далеко-далеко за словесными горами в стране гласных и согласных живут рыбные тексты. Языком что рот маленький реторический вершину текстов обеспечивает гор свой назад решила сбить маленькая дорогу жизни рукопись ему букв деревни предложения, ручеек залетают продолжил парадигматическая? Но языком сих пустился, запятой своего его снова решила меня вопроса моей своих пояс коварный, власти диких правилами напоивший они текстов ipsum первую подпоясал? Лучше, щеке подпоясал приставка большого курсивных на берегу своего? Злых, составитель агентство что вопроса ведущими о решила одна алфавит!',
       tags: ['свежее', 'мое', 'случайность'],
-      author: 'artem@mail.com',
+      author: {displayName: 'artem', photo: 'https://images.ua.prom.st/2520433596_w200_h200_folgirovanyj-shar-pups.jpg'},
       date: '11.11.2020, 20:54:00',
       like: 8,
       comments: 12,
@@ -131,10 +131,12 @@ const toggleAuthDom = () => {
     userElem.style.display = '';
     userNameElem.textContent = user.displayName;
     userAvatarElem.src = user.photo || userAvatarElem.src;
+    buttonNewPost.classList.add('visible');
   }
   else {
     loginElem.style.display = '';
     userElem.style.display = 'none';
+    buttonNewPost.classList.remove('visible');
   }
 };
 
@@ -186,10 +188,10 @@ const showAllPosts = () => {
           </div>
           <div class="post-author">
             <div class="author-about">
-              <a href="#" class="author-username">${getDisplayName(author)}</a>
+              <a href="#" class="author-username">${author.displayName}</a>
               <span class="post-time">${date}</span>
             </div>
-            <a href="#" class="author-link"><img src="img/avatar.jpeg" alt="avatar" class="author-avatar"></a>
+            <a href="#" class="author-link"><img src=${author.photo || "img/avatar.jpeg"} alt="avatar" class="author-avatar"></a>
           </div>
         </div>
       </section>
@@ -245,4 +247,4 @@ document.addEventListener('DOMContentLoaded', () => {
   init();
 })
 
-//1 h 35 min
+//Day 3, 44 min
