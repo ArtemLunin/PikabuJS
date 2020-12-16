@@ -1,3 +1,21 @@
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyAMH3zjGavVRBhnHn_Xt_9Lo27zk4-st0Q",
+  authDomain: "fir-dcdf7.firebaseapp.com",
+  databaseURL: "https://fir-dcdf7.firebaseio.com",
+  projectId: "fir-dcdf7",
+  storageBucket: "fir-dcdf7.appspot.com",
+  messagingSenderId: "173273564494",
+  appId: "1:173273564494:web:90b2441658ba48b96e0a1f",
+  measurementId: "G-0RE9LYBLGT"
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+// firebase.analytics();
+
+console.log(firebase);
+
 // Создаем переменную, в которую положим кнопку меню
 let menuToggle = document.querySelector('#menu-toggle');
 // Создаем переменную, в которую положим меню
@@ -24,6 +42,7 @@ const userAvatarElem = document.querySelector('.user-avatar');
 
 const postsWrapper = document.querySelector('.posts');
 const buttonNewPost = document.querySelector('.button-new-post');
+const addPostElem = document.querySelector('.add-post');
 
 const listUsers = [
   {
@@ -37,6 +56,7 @@ const listUsers = [
     email: 'artem@mail.com',
     password:'12345',
     displayName:'Artem',
+    photo: 'https://i.pinimg.com/474x/08/cd/b9/08cdb9cc661357a55a1c2ddf53d9a7c4.jpg',
   }
 ];
 
@@ -121,7 +141,27 @@ const setPosts = {
       like: 8,
       comments: 12,
     },
-  ]
+  ], 
+  addPost(title, text, tags, handler)
+  {
+    this.allPosts.unshift({
+      title, 
+      text, 
+      tags: tags.split(',').map(item => item.trim()),
+      author: {
+        displayName: setUsers.user.displayName,
+        photo: setUsers.user.photo,
+      },
+      date: new Date().toLocaleString(),
+      like: 0, 
+      comments: 0,
+    });
+
+    if(handler)
+    {
+      handler();
+    }
+  }
 };
 
 const toggleAuthDom = () => {
@@ -137,6 +177,8 @@ const toggleAuthDom = () => {
     loginElem.style.display = '';
     userElem.style.display = 'none';
     buttonNewPost.classList.remove('visible');
+    addPostElem.classList.remove('visible');
+    postsWrapper.classList.add('visible');
   }
 };
 
@@ -148,8 +190,14 @@ const getHashTags = (tag) => {
   return `<a href="#" class="tag">#${tag}</a>`;
 }
 
+const showAddPost = () => {
+  addPostElem.classList.add('visible');
+  postsWrapper.classList.remove('visible');
+}
 
 const showAllPosts = () => {
+
+
   let postsHTML = '';
   setPosts.allPosts.forEach(({ title, text, tags, like, comments, author, date }) => {
     postsHTML += `
@@ -198,7 +246,11 @@ const showAllPosts = () => {
     `;
     postsWrapper.innerHTML = postsHTML;
   });
+
+  addPostElem.classList.remove('visible');
+  postsWrapper.classList.add('visible');
 }
+
 
 const init = () => {
 
@@ -231,13 +283,37 @@ editContainer.addEventListener('submit', event =>{
   editContainer.classList.remove('visible');
 });
 
-// отслеживаем клик по кнопке меню и запускаем функцию 
-menuToggle.addEventListener('click', function (event) {
+
+  // отслеживаем клик по кнопке меню и запускаем функцию 
+  menuToggle.addEventListener('click', function (event) {
   // отменяем стандартное поведение ссылки
   event.preventDefault();
   // вешаем класс на меню, когда кликнули по кнопке меню 
   menu.classList.toggle('visible');
 });
+
+  buttonNewPost.addEventListener('click', event => {
+    event.preventDefault();
+    showAddPost();
+  });
+
+  addPostElem.addEventListener('submit', event => {
+    event.preventDefault();
+    const { title, text, tags } = addPostElem.elements;
+    if (title.value.length < 6)
+    {
+      alert('Слишком короткий заголовок');
+      return;
+    }
+    if (text.value.length < 50)
+    {
+      alert('Слишком короткий пост');
+      return;
+    }
+    setPosts.addPost(title.value, text.value, tags.value, showAllPosts);
+    addPostElem.classList.remove('visible');
+    addPostElem.reset();
+  });
 
   showAllPosts();
   toggleAuthDom();
